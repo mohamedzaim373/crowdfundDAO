@@ -23,3 +23,20 @@ Aucun contenu éditorial n’est écrit dans la blockchain : les campagnes y con
 Le motif d’une proposition suit donc la même règle que la fiche d’une campagne : la chaîne n’en garde que l’empreinte, et toute réécriture ultérieure du texte produirait un CID différent de celui inscrit au moment du vote.
 
 scripts/keeper.mjs automatise les décisions locales et active le minage périodique. Il ne décide pas de l’issue du vote et n’exécute pas de transfert au bénéficiaire à sa place. Une exécution sur réseau public demande un service distinct ou un appel manuel.
+
+## Captures du déploiement Sepolia
+
+Déploiement du 7 novembre 2026 sur la chaîne 11155111, bloc 12085541, depuis `0x568e84bB2690Dd0c4cd9b33465412C70D63901E7`.
+
+| Fichier | Contenu |
+|---|---|
+| `screenshots/sepolia-01-deploiement-transactions.jpg` | Les huit transactions du déployeur : quatre créations de contrats, trois attributions de rôles, et l'alimentation du faucet. |
+| `screenshots/sepolia-02-sourcify-exact-match.jpg` | Vérification Sourcify de CFDToken en correspondance exacte, bytecode de création et d'exécution. |
+| `screenshots/sepolia-03-cfdtoken.jpg` | CFDToken sur Etherscan Sepolia. |
+| `screenshots/sepolia-04-crowdfundingcore.jpg` | CrowdfundingCore sur Etherscan Sepolia. |
+| `screenshots/sepolia-05-campaigngovernance.jpg` | CampaignGovernance sur Etherscan Sepolia. |
+| `screenshots/sepolia-06-multisigtreasury.jpg` | MultiSigTreasury sur Etherscan Sepolia. |
+| `screenshots/sepolia-07-dapp-reseau.jpg` | L'interface servie sur la configuration Sepolia, avant toute campagne. |
+| `sepolia-verification.txt` | Sortie de `npm run verify:sepolia` : trente contrôles de paramètres, de câblage et de rôles, tous au vert. |
+
+Les captures montrant une campagne créée, une contribution et un vote exigent une signature MetaMask et restent à produire manuellement.

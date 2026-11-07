@@ -1,0 +1,47 @@
+RPC https://ethereum-sepolia-rpc.publicnode.com
+Manifeste deployments/sepolia.json
+
+OK    chaîne conforme au manifeste: 11155111
+
+-- Code déployé --
+OK    CFDToken (0x95FDb2b1f16cCF4648FE29647bB1eC4BCd025003): true
+OK    CrowdfundingCore (0x3371A6C82173d21d8D214cBe5045227Ec048fC15): true
+OK    CampaignGovernance (0x64964d2bc8419F19D20421CBcFB473494b1b03ed): true
+OK    MultiSigTreasury (0x4652D5c4adaEcC7bc13d021cdD45e7c604Ed7D56): true
+
+-- M1 : jeton de gouvernance --
+OK    nom: Crowdfund DAO
+OK    symbole: CFD
+OK    décimales: 18
+OK    delegate() révoque DelegationDisabled: DelegationDisabled
+
+-- M2 : cœur du financement --
+OK    tokensPerEth: 100
+OK    jeton câblé: 0x95FDb2b1f16cCF4648FE29647bB1eC4BCd025003
+
+-- M3 : gouvernance --
+OK    votingPeriodBlocks: 25
+OK    executionDelayBlocks: 2
+OK    quorumBps: 5000
+OK    jeton câblé: 0x95FDb2b1f16cCF4648FE29647bB1eC4BCd025003
+OK    cœur câblé: 0x3371A6C82173d21d8D214cBe5045227Ec048fC15
+
+-- §5 : contrôle d'accès --
+OK    Core est MINTER: true
+OK    Core est BURNER: true
+OK    Governance a GOVERNANCE_ROLE: true
+OK    déployeur est PAUSER du jeton: true
+OK    déployeur est PAUSER du cœur: true
+OK    déployeur n'est PAS MINTER: false
+OK    déployeur n'a PAS GOVERNANCE_ROLE: false
+
+-- §5 : trésorerie 2-sur-3 --
+      propriétaires : 0x568e84bB2690Dd0c4cd9b33465412C70D63901E7, 0x553a6775A246670C808d522E4FDC9A70DCADA41E, 0x3888d4a7D8359025372EEa6B0F31095cd34f6fd1
+OK    trois propriétaires distincts: 3
+OK    seuil (wei): 1000000000000000000
+      soit 1.0 ETH
+OK    2 confirmations au-dessus du seuil: 2
+OK    1 confirmation au seuil exact: 1
+OK    2 confirmations si la transaction porte des données: 2
+
+Tous les contrôles passent.
