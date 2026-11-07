@@ -1,0 +1,36 @@
+node_modules/
+.venv/
+.venv-audit/
+artifacts/
+cache/
+coverage/
+typechain-types/
+types/
+.npm-cache/
+.env
+frontend/.env
+frontend/dist/
+*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
+# Le manifeste local est jetable : il change à chaque redémarrage du nœud.
+# Celui de Sepolia est au contraire la preuve du déploiement testnet exigée
+# par la section 7, il doit donc être suivi.
+deployments/localhost.json
+
+# Sorties régénérables du script d'analyse hors-chaîne.
+audit/contributions.json
+audit/anomalies.json
+audit/*.sarif
+# Les rapports Slither bruts restent suivis : la section 5 demande que les
+# findings de l'audit statique soient annexés au livrable.
+__pycache__/
+*.pyc
+
+# Local service logs and generated document previews
+.*.log
+audit/pdf-preview/
+tmp/
+
+# Fichier d' arguments genere par npm run verify:source
+constructor-args.tmp.js

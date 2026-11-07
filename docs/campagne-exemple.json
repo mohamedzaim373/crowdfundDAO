@@ -1,0 +1,15 @@
+{
+  "name": "Panneaux solaires pour l'école de Tadla",
+  "description": "Installation de 24 panneaux photovoltaiques couvrant la consommation electrique annuelle de l'ecole primaire rurale de Tadla, soit environ 9 MWh. Le surplus alimente la pompe du puits du village.",
+  "image": "ipfs://bafkreifoys2ffwi3yn2zgrkl4i6lhlg7cox6win4cbrzqazwbms3aiocjm",
+  "external_url": "https://exemple.org/tadla-solaire",
+  "category": "energie",
+  "beneficiaryName": "Association Lumiere de Tadla",
+  "milestones": [
+    { "title": "Etude technique et devis", "amountEth": "2.0" },
+    { "title": "Achat des panneaux et onduleurs", "amountEth": "6.0" },
+    { "title": "Installation et mise en service", "amountEth": "2.0" }
+  ],
+  "contact": "contact@exemple.org",
+  "createdAt": "2026-11-03"
+}

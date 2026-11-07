@@ -1,0 +1,24 @@
+{
+  "network": "sepolia",
+  "chainId": "11155111",
+  "deploymentBlock": 12085541,
+  "deployer": "0x568e84bB2690Dd0c4cd9b33465412C70D63901E7",
+  "contracts": {
+    "CFDToken": "0x95FDb2b1f16cCF4648FE29647bB1eC4BCd025003",
+    "CrowdfundingCore": "0x3371A6C82173d21d8D214cBe5045227Ec048fC15",
+    "CampaignGovernance": "0x64964d2bc8419F19D20421CBcFB473494b1b03ed",
+    "MultiSigTreasury": "0x4652D5c4adaEcC7bc13d021cdD45e7c604Ed7D56"
+  },
+  "parameters": {
+    "tokenRate": "100",
+    "votingPeriodBlocks": "25",
+    "executionDelayBlocks": "2",
+    "quorumBps": "5000",
+    "treasuryThreshold": "1000000000000000000",
+    "treasuryOwners": [
+      "0x568e84bB2690Dd0c4cd9b33465412C70D63901E7",
+      "0x553a6775A246670C808d522E4FDC9A70DCADA41E",
+      "0x3888d4a7D8359025372EEa6B0F31095cd34f6fd1"
+    ]
+  }
+}

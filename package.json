@@ -1,0 +1,45 @@
+{
+  "name": "crowdfund-dao",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "build": "hardhat build && node scripts/export-abis.mjs",
+    "test": "npm run test:contracts",
+    "test:contracts": "node scripts/run-tests.mjs",
+    "node": "hardhat node",
+    "keeper:local": "node scripts/keeper.mjs",
+    "demo:local": "hardhat run scripts/demo.ts --network localhost",
+    "analyze:local": "node scripts/export-contributions.mjs localhost && python scripts/analyze_transactions.py audit/contributions.json --output audit/anomalies.json",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "verify:local": "node scripts/verify-deployment.mjs http://127.0.0.1:8545 deployments/localhost.json",
+    "verify:sepolia": "node scripts/verify-deployment.mjs https://ethereum-sepolia-rpc.publicnode.com deployments/sepolia.json",
+    "verify:source": "node scripts/verify-contracts.mjs",
+    "sepolia": "node scripts/sepolia.mjs",
+    "frontend:dev": "npm run dev --workspace frontend",
+    "frontend:build": "npm run build && npm run build --workspace frontend",
+    "check": "npm run build && npm run test:contracts && npm run frontend:build"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^4.0.0",
+    "@nomicfoundation/hardhat-ethers-chai-matchers": "^3.0.0",
+    "@nomicfoundation/hardhat-keystore": "^3.1.2",
+    "@nomicfoundation/hardhat-mocha": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^3.0.0",
+    "@nomicfoundation/hardhat-typechain": "^3.0.0",
+    "@nomicfoundation/hardhat-verify": "^3.1.4",
+    "@openzeppelin/contracts": "^5.4.0",
+    "@types/chai": "^5.2.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.0.0",
+    "chai": "^5.3.3",
+    "ethers": "^6.15.0",
+    "hardhat": "^3.0.0",
+    "mocha": "^11.7.4",
+    "typescript": "~5.9.2"
+  }
+}

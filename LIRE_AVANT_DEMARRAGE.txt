@@ -1,0 +1,56 @@
+CROWDFUND DAO - VERSION CORRIGEE DU 4 NOVEMBRE 2026
+
+Ce dossier contient le code source, les tests, les captures, le rapport PDF
+et la presentation PowerPoint avec les notes de soutenance.
+
+DOCUMENTS
+- output/pdf/rapport_blockchain_corrige.pdf : rapport de 10 pages
+- output/presentation/Crowdfund_DAO_avec_captures.pptx : 12 diapositives
+- README.md : instructions detaillees
+- audit/corrections-2026-11-04.md : corrections et limites
+
+INSTALLATION
+1. Extraire completement le ZIP.
+2. Installer Node.js 22.13 ou plus recent (et Python 3 pour le bonus).
+3. Ouvrir un terminal dans ce dossier, a cote de package.json.
+4. Executer :
+   npm ci
+   npm run check
+
+LANCEMENT LOCAL
+Terminal 1 : npm run node
+Terminal 2 : npm run deploy:local
+             npm run demo:local
+Terminal 3 : npm run keeper:local
+Terminal 4 : npm run frontend:dev
+
+Ouvrir http://127.0.0.1:5173
+Le deploiement genere automatiquement frontend/.env avec les nouvelles adresses.
+Si le noeud est redemarre, refaire le deploiement et relancer le keeper.
+Les dossiers node_modules et les environnements Python sont exclus du ZIP.
+
+METAMASK
+Installer l'extension pour signer les transactions dans le navigateur.
+RPC : http://127.0.0.1:8545
+Chain ID : 31337
+Utiliser exclusivement un compte de test affiche par Hardhat.
+
+CID DE DEMONSTRATION
+bafkreih33xpwo4wnh7u6c74zvcltj3h3giygigxlmkheqmc4mtmprxmtwy
+
+ETAT DE LA VALIDATION
+39 tests ont reussi sur la version fournie. Les captures montrent des fonds
+de test locaux. La recette de signature dans MetaMask reste a realiser.
+Deploiement Sepolia effectue (chaine 11155111, bloc 12085541) :
+  CFDToken           0x95FDb2b1f16cCF4648FE29647bB1eC4BCd025003
+  CrowdfundingCore   0x3371A6C82173d21d8D214cBe5045227Ec048fC15
+  CampaignGovernance 0x64964d2bc8419F19D20421CBcFB473494b1b03ed
+  MultiSigTreasury   0x4652D5c4adaEcC7bc13d021cdD45e7c604Ed7D56
+Code source publie sur Sourcify. Verifier avec : npm run verify:sepolia
+Le keeper automatise seulement Hardhat local.
+
+BONUS
+npm run analyze:local
+
+Aucune configuration .env contenant des secrets n'est incluse.
+Pour Sepolia, suivre le README et definir ses propres variables de processus.

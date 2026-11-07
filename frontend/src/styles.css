@@ -1,0 +1,532 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+
+/* Charte visuelle reprise du design system GoFundMe (« hrt ») : les valeurs
+   proviennent des variables CSS de la page publique sauvegardée à la racine du
+   projet. L'axe de graisse de GoFundMe Sans s'arrête à 175 ; on déclare donc la
+   plage large et on écrit des graisses standard (400/500/700) que le navigateur
+   borne sur l'axe réel — ce qui laisse une police de repli lisible si le CDN
+   n'est pas joignable. */
+@font-face {
+  font-family: 'GoFundMe Sans';
+  src: url('https://cdn.gofundme.com/fonts/GoFundMeSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: 'GoFundMe Sans', Trebuchet, Helvetica, Arial, sans-serif;
+  color: #232323; background: #ffffff; font-synthesis: none;
+  /* Couleurs de marque */
+  --ink:#232323; --green:#4A9D44; --green-dark:#274A34; --green-deep:#0B291A;
+  --green-hover:#357D3A; --lime:#CCF88E; --lime-soft:#E9FCCE;
+  --cream:#FAFAFA; --neutral:#F5F5F5; --neutral-mid:#E9E9E9;
+  --line:#D8D8D8; --line-soft:#EFEFEF; --muted:#6F6F6F; --muted-strong:#424242;
+  /* Rayons du design system : conteneur 24px, carte 16px, bouton pilule */
+  --radius:16px; --radius-lg:24px; --radius-sm:12px; --radius-field:12px;
+  /* Ombres et transition relevées sur les tokens hrt de la page sauvegardée */
+  --shadow-medium:0 2px 6px rgba(35,35,35,.1);
+  --shadow-strong:0 6px 14px rgba(35,35,35,.1);
+  --ease:cubic-bezier(.3,.01,0,1);
+  --header-h:80px;
+}
+* { box-sizing: border-box; }
+/* L'ancrage doit s'arrêter sous l'en-tête collant, sinon le titre de section
+   passe derrière lui. */
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+body { margin: 0; min-width: 320px; background: #ffffff; }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+:where(a, button, input, select, textarea, summary):focus-visible { outline:2px solid var(--green-dark); outline-offset:2px; }
+
+/* --- En-tête : repris du comportement GoFundMe (`hrt-header--fixed`) ---
+   `sticky` plutôt que `fixed` : l'en-tête reste dans le flux, donc aucune marge
+   de compensation n'est nécessaire en haut de page. Transparent au-dessus du
+   héros, il bascule en blanc ombré dès le premier défilement. */
+.skip-link { position:absolute; left:50%; top:0; transform:translateX(-50%) translateY(-150%); z-index:901; background:#fff; color:var(--ink); border-radius:0 0 var(--radius-sm) var(--radius-sm); padding:12px 20px; font-weight:700; font-size:15px; text-decoration:none; box-shadow:var(--shadow-strong); transition:transform .2s var(--ease); }
+.skip-link:focus { transform:translateX(-50%) translateY(0); }
+
+.site-header { position:sticky; top:0; z-index:900; width:100%; background:transparent; transition:background-color .2s var(--ease), box-shadow .2s var(--ease); }
+.site-header--scrolled { background:#fff; box-shadow:var(--shadow-strong); }
+/* Le menu mobile déployé a besoin d'un fond opaque même sans défilement. */
+.site-header--open { background:#fff; }
+.header-inner { height:var(--header-h); max-width:1440px; margin:auto; padding:0 5vw; display:flex; align-items:center; gap:20px; }
+.brand { display:flex; align-items:center; gap:10px; color:var(--ink); text-decoration:none; font-weight:700; letter-spacing:-.02em; font-size:20px; flex:0 0 auto; }
+.brand > span:last-child > span { color:var(--green); }
+.brand-mark { display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:var(--green-dark); color:var(--lime); font-weight:700; font-size:17px; }
+
+/* Recherche : filtre les campagnes affichées, à l'image du champ GoFundMe. */
+/* `min-width` indispensable : sans lui le champ se laisse écraser à quelques
+   pixels dès que les menus réclament de la place. */
+.header-search { position:relative; flex:0 1 250px; min-width:190px; display:flex; align-items:center; }
+.header-search input { width:100%; border:1.5px solid #B7B7B6; background:rgba(255,255,255,.92); border-radius:99px; padding:10px 38px 10px 38px; font-size:15px; color:var(--ink); outline:none; }
+.header-search input::placeholder { color:var(--muted); }
+.header-search input:focus { border-color:#232323; box-shadow:0 0 0 1px #232323; background:#fff; }
+.header-search .search-icon { position:absolute; left:14px; color:var(--muted); font-size:14px; pointer-events:none; }
+.header-search .search-clear { position:absolute; right:8px; border:0; background:transparent; color:var(--muted); font-size:17px; line-height:1; padding:6px; border-radius:50%; }
+.header-search .search-clear:hover { color:var(--ink); background:var(--neutral); }
+
+.nav-menu { display:flex; align-items:center; gap:4px; list-style:none; margin:0; padding:0; flex:1 1 auto; }
+.nav-item { position:relative; }
+.nav-trigger { display:flex; align-items:center; gap:6px; white-space:nowrap; border:0; background:transparent; color:var(--ink); font-size:15px; font-weight:500; padding:10px 12px; border-radius:var(--radius-sm); text-decoration:none; }
+.nav-trigger:hover { background:rgba(35,35,35,.06); }
+.nav-caret { border-left:4px solid transparent; border-right:4px solid transparent; border-top:5px solid var(--ink); transition:transform .2s var(--ease); }
+.nav-trigger[aria-expanded="true"] .nav-caret { transform:rotate(180deg); }
+/* Panneau de menu : titre + sous-titre par entrée, comme les volets « Je
+   soutiens » / « Collecter des fonds » de GoFundMe. */
+.dd-content { position:absolute; top:calc(100% + 8px); left:0; min-width:19rem; background:#fff; border-radius:var(--radius-lg); box-shadow:var(--shadow-strong); padding:10px; list-style:none; margin:0; z-index:10; }
+.dd-content::before { content:""; position:absolute; top:-8px; left:0; width:100%; height:8px; }
+.dd-item { display:block; padding:11px 14px; border-radius:var(--radius-sm); color:var(--ink); text-decoration:none; }
+.dd-item:hover { background:var(--neutral); }
+.dd-item b { display:block; font-size:15px; font-weight:700; }
+.dd-item span { display:block; margin-top:2px; font-size:13px; color:var(--muted); }
+
+.header-right { display:flex; align-items:center; gap:10px; flex:0 0 auto; margin-left:auto; }
+.header-link { color:var(--ink); font-size:15px; font-weight:500; white-space:nowrap; text-decoration:none; padding:10px 12px; border-radius:var(--radius-sm); }
+.header-link:hover { background:rgba(35,35,35,.06); }
+.wallet,.delegate { border:0; border-radius:99px; padding:12px 22px; background:var(--green-dark); color:#fff; font-size:15px; font-weight:700; display:flex; align-items:center; gap:9px; }
+.wallet:hover:enabled { background:#2D6339; }
+.pulse { width:7px; height:7px; border-radius:50%; background:var(--lime); }
+.burger { display:none; flex-direction:column; justify-content:center; gap:5px; width:42px; height:42px; border:0; border-radius:var(--radius-sm); background:transparent; }
+.burger:hover { background:rgba(35,35,35,.06); }
+.burger span { display:block; height:2px; border-radius:2px; background:var(--ink); transition:transform .2s var(--ease), opacity .2s var(--ease); }
+.burger[aria-expanded="true"] span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { opacity:0; }
+.burger[aria-expanded="true"] span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-panel { display:none; border-top:1px solid var(--line-soft); background:#fff; padding:14px 5vw 22px; max-height:calc(100vh - var(--header-h)); overflow-y:auto; }
+.mobile-panel .header-search { flex:1 1 auto; margin-bottom:12px; }
+.mobile-group { border-bottom:1px solid var(--line-soft); padding:6px 0; }
+.mobile-group > summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:12px 2px; font-size:16px; font-weight:700; }
+.mobile-group > summary::-webkit-details-marker { display:none; }
+.mobile-group > summary::after { content:"+"; font-size:20px; color:var(--muted); }
+.mobile-group[open] > summary::after { content:"−"; }
+.mobile-group a { display:block; padding:9px 2px; color:var(--muted-strong); font-size:15px; text-decoration:none; }
+.mobile-panel .wallet { width:100%; justify-content:center; margin-top:16px; }
+
+/* --- Hero : un appel au don, adossé à une campagne réelle ---
+   Le dégradé assure le contraste du texte sous l'en-tête transparent. */
+.hero { background:linear-gradient(180deg,var(--lime-soft) 0%,#F7FDF0 55%,#fff 100%); }
+.hero-inner { max-width:1280px; margin:auto; padding:72px 4vw 56px; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:5vw; }
+.eyebrow { display:inline-block; background:var(--lime-soft); color:var(--green-dark); border-radius:99px; padding:8px 15px; font-size:14px; font-weight:700; letter-spacing:0; text-transform:none; }
+.hero .eyebrow { background:rgba(39,74,52,.1); }
+.eyebrow span { margin-right:7px; }
+h1 { font-size:clamp(40px,4.6vw,62px); line-height:1.1; letter-spacing:-.02em; max-width:640px; margin:22px 0 18px; color:var(--ink); font-weight:700; }
+h1 em { font-style:normal; color:var(--green); }
+.lede { max-width:540px; color:var(--muted-strong); line-height:1.5; font-size:18px; }
+.hero-actions { display:flex; gap:12px; margin-top:30px; flex-wrap:wrap; align-items:center; }
+.primary,.secondary { padding:16px 30px; border-radius:99px; font-weight:700; font-size:16px; text-decoration:none; display:inline-block; }
+/* Le CTA principal reprend le bouton « spécial » lime de GoFundMe. */
+.primary { background:var(--lime); color:var(--green-dark); transition:background .15s; }
+.primary:hover { background:#DCFBB4; }
+.primary span { margin-left:10px; }
+.secondary { color:var(--ink); border:1.5px solid #B7B7B6; background:transparent; }
+.secondary:hover { border-color:#585858; background:rgba(35,35,35,.05); }
+/* « Pas de frais pour commencer à collecter des fonds » : réassurance placée
+   sous le CTA, exactement comme sur la page d'accueil GoFundMe. */
+.cta-note { margin:14px 0 0; font-size:15px; color:var(--muted-strong); font-weight:500; }
+.trust-line { display:flex; gap:22px; flex-wrap:wrap; margin-top:34px; font-size:15px; color:var(--muted); font-weight:500; }
+
+/* Bandeau statistique « Plus de X sont collectés chaque semaine » */
+.stat-claim { max-width:1180px; margin:auto; padding:64px 4vw; text-align:center; }
+.stat-claim h2 { font-size:clamp(26px,3vw,40px); letter-spacing:-.02em; line-height:1.15; margin:0 auto 16px; max-width:780px; font-weight:700; }
+.stat-claim h2 sup { font-size:.5em; vertical-align:super; color:var(--muted); }
+.stat-claim p { max-width:620px; margin:auto; color:var(--muted-strong); font-size:18px; line-height:1.5; }
+
+/* --- Carte mise en avant + cartes de campagne --- */
+.hero-feature { display:flex; justify-content:center; }
+.feature-card { width:100%; max-width:430px; background:#fff; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-medium),0 12px 32px rgba(35,35,35,.1); }
+.cover-wrap { position:relative; }
+.cover { display:block; width:100%; height:210px; object-fit:cover; }
+.cover-fallback { display:grid; place-items:center; background-size:cover; }
+.cover-fallback span { font-size:62px; font-weight:700; color:rgba(255,255,255,.92); letter-spacing:-.02em; }
+.feature-flag { position:absolute; top:14px; left:14px; background:var(--lime); color:var(--green-dark); font-size:13px; font-weight:700; padding:7px 13px; border-radius:99px; }
+.card-body { padding:22px; }
+.card-body h3 { margin:0 0 8px; font-size:20px; letter-spacing:-.01em; line-height:1.2; font-weight:700; }
+.primary.wide { display:block; width:100%; text-align:center; margin-top:18px; padding:14px; font-size:16px; background:var(--green-dark); color:#fff; }
+.primary.wide:hover { background:#2D6339; }
+.urgency { margin:8px 0 0; font-size:15px; color:var(--muted); font-weight:500; }
+.failure-note { margin-top:14px; padding:13px 14px; border:1px solid #F3B9AC; border-radius:var(--radius-sm); background:#FEF0EA; color:#6E140D; font-size:14px; line-height:1.45; display:flex; flex-direction:column; gap:3px; }
+.failure-note strong { font-size:15px; }
+.success-note { margin-top:14px; padding:13px 14px; border:1px solid #A9D89F; border-radius:var(--radius-sm); background:var(--lime-soft); color:var(--green-dark); font-size:14px; line-height:1.45; display:flex; flex-direction:column; gap:3px; }
+.success-note strong { font-size:15px; }
+
+.metrics { background:var(--cream); color:var(--ink); padding:34px 7vw; display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); }
+.metrics article { padding:6px 24px; border-right:1px solid var(--line); display:flex; flex-direction:column; gap:6px; }.metrics article:last-child { border:0; }.metrics span { font-size:14px; font-weight:500; color:var(--muted); }.metrics strong { font-size:28px; color:var(--green-dark); letter-spacing:-.02em; font-weight:700; }
+.config-warning { margin:36px auto 0; max-width:1180px; padding:18px 22px; background:#FFF3D0; border:1px solid #FFD863; border-radius:var(--radius-sm); display:flex; gap:20px; font-size:15px; color:#68570D; }.config-warning code { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:13px; }
+.section { max-width:1280px; margin:auto; padding:96px 4vw; }
+.section-heading { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:34px; }.section-heading h2,.launch h2 { margin:12px 0 0; font-size:clamp(30px,3.4vw,44px); letter-spacing:-.02em; color:var(--ink); font-weight:700; line-height:1.1; }.network-chip { font-size:14px; font-weight:500; color:var(--green-dark); background:var(--lime-soft); border-radius:99px; padding:9px 15px; }
+
+/* --- « La collecte de fonds est conviviale, efficace et sécurisée » : les
+   trois étapes numérotées de GoFundMe, adaptées au parcours on-chain. --- */
+.steps { background:var(--cream); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); }
+.steps-inner { max-width:1280px; margin:auto; padding:96px 4vw; }
+.steps-inner > h2 { margin:12px 0 44px; font-size:clamp(28px,3.2vw,42px); letter-spacing:-.02em; line-height:1.15; max-width:760px; font-weight:700; }
+.steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:34px; }
+.step-number { display:grid; place-items:center; width:42px; height:42px; border-radius:50%; background:var(--green-dark); color:var(--lime); font-size:18px; font-weight:700; }
+.step h3 { font-size:21px; letter-spacing:-.01em; line-height:1.25; margin:18px 0 10px; font-weight:700; }
+.step p { margin:0; color:var(--muted-strong); font-size:16px; line-height:1.55; }
+.step a { color:var(--green-dark); font-weight:700; }
+
+/* Onglets de découverte (« Actualité internationale », …) */
+.tabs { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:26px; }
+.tab { border:1.5px solid var(--line); background:#fff; color:var(--muted-strong); border-radius:99px; padding:9px 18px; font-size:15px; font-weight:500; }
+.tab:hover { border-color:#585858; }
+.tab[aria-pressed="true"] { background:var(--green-dark); border-color:var(--green-dark); color:#fff; font-weight:700; }
+.tab-count { opacity:.65; margin-left:7px; font-size:13px; }
+
+.campaign-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+.campaign-card { background:#fff; border-radius:var(--radius); overflow:hidden; min-width:0; display:flex; flex-direction:column; box-shadow:0 1px 3px rgba(35,35,35,.09),0 6px 18px rgba(35,35,35,.07); transition:transform .18s,box-shadow .18s; }
+.campaign-card:hover { transform:translateY(-4px); box-shadow:0 4px 10px rgba(35,35,35,.1),0 18px 38px rgba(35,35,35,.12); }
+.campaign-card .cover { height:180px; }
+.campaign-card .card-body { display:flex; flex-direction:column; flex:1; }
+.status { position:absolute; top:14px; left:14px; font-size:13px; font-weight:700; padding:6px 12px; border-radius:99px; background:#fff; color:var(--muted-strong); }
+.status-0,.status-1 { background:var(--lime-soft); color:#274A34; }
+.status-2,.status-4 { background:#FEF0EA; color:#880E06; }
+.status-3 { background:#FFF3D0; color:#68570D; }
+/* Compteur de dons de la vignette GoFundMe, posé sur la couverture. */
+.donation-count { position:absolute; bottom:14px; left:14px; background:rgba(35,35,35,.82); color:#fff; font-size:13px; font-weight:700; padding:6px 12px; border-radius:99px; }
+.campaign-description { margin:0 0 14px; font-size:16px; line-height:1.5; color:var(--muted); display:-webkit-box; -webkit-line-clamp:3; line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.ipfs { display:block; margin-top:14px; color:var(--muted); font-size:14px; text-decoration:underline; }
+.ipfs:hover { color:var(--green-dark); }
+.progress { height:8px; border-radius:99px; background:var(--neutral-mid); margin:auto 0 12px; overflow:hidden; }
+.progress span { display:block; height:100%; background:var(--green); border-radius:inherit; transition:width .4s ease; }
+.funding-row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.funding-row b { font-size:20px; color:var(--ink); letter-spacing:-.01em; font-weight:700; }
+.funding-row span { font-size:15px; color:var(--muted); }
+.campaign-meta { display:grid; grid-template-columns:1fr 1fr; gap:14px; border-top:1px solid var(--line-soft); margin-top:18px; padding-top:16px; }
+.campaign-meta span { font-size:13px; color:var(--muted); font-weight:500; }
+.campaign-meta b { display:block; margin-top:4px; color:var(--ink); font-size:15px; font-weight:700; }
+.inline-form { display:flex; gap:10px; margin-top:16px; }
+.inline-form label,.launch label { position:relative; flex:1; }
+.inline-form input,.launch input,.proposal-form input,.proposal-form select,.proposal-form textarea { width:100%; background:#fff; border:1.5px solid #B7B7B6; padding:13px; outline:none; border-radius:var(--radius-field); color:var(--ink); }
+.inline-form input:focus,.launch input:focus,.proposal-form input:focus,.proposal-form select:focus,.proposal-form textarea:focus { border-color:#232323; box-shadow:0 0 0 1px #232323; }
+/* L'unité est collée au bas du label, car dans « Lancer une campagne » le champ
+   est précédé d'un intitulé : un décalage depuis le haut la sortirait du champ. */
+.inline-form label span,.launch label span { position:absolute; right:14px; font-size:14px; color:var(--muted); }
+.inline-form label span { top:15px; }
+.launch label span { bottom:17px; }
+.inline-form button,.wide-secondary { border:0; background:var(--green-dark); color:#fff; border-radius:99px; padding:0 22px; font-size:16px; font-weight:700; white-space:nowrap; }
+.inline-form button:hover:enabled,.wide-secondary:hover:enabled { background:#2D6339; }
+.wide-secondary { width:100%; padding:13px; margin-top:14px; }
+.empty { grid-column:1/-1; padding:56px; text-align:center; border:1.5px dashed var(--line); border-radius:var(--radius-lg); color:var(--muted); }.empty.dark { border-color:rgba(255,255,255,.25); color:#D8D8D8; }
+/* « Afficher plus d'éléments » : la grille ne révèle qu'une page à la fois. */
+.load-more { display:block; margin:34px auto 0; border:1.5px solid var(--ink); background:#fff; color:var(--ink); border-radius:99px; padding:14px 34px; font-size:16px; font-weight:700; }
+.load-more:hover { background:rgba(35,35,35,.05); }
+
+/* --- Gouvernance : bloc vert profond de la marque --- */
+.governance { background:var(--green-deep); color:#fff; padding:96px max(5vw,calc((100vw - 1180px)/2)); }
+.section-heading.light h2 { color:#fff; }
+.section-heading.light .eyebrow { background:rgba(204,248,142,.16); color:var(--lime); }
+.delegate { background:var(--lime); color:var(--green-dark); }.delegate:hover:enabled { background:var(--lime-soft); }
+.governance-layout { display:grid; grid-template-columns:1.3fr .7fr; gap:34px; }
+.proposal-list { display:grid; gap:14px; }
+.proposal { border:1px solid rgba(255,255,255,.14); padding:24px; border-radius:var(--radius); background:rgba(255,255,255,.05); }
+.proposal-number,.proposal-state,.form-index { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.08em; color:#B7B7B6; }
+.proposal-state { float:right; color:var(--lime); }
+.proposal h3 { font-size:20px; margin:16px 0 5px; font-weight:700; line-height:1.2; }
+.proposal p { font-size:14px; color:#D8D8D8; }
+.proposal-pending { color:#B7B7B6; font-style:italic; font-weight:500; }
+.proposal-source { color:var(--lime); text-decoration:underline; }
+.vote-bar { height:6px; margin:20px 0 10px; background:rgba(255,255,255,.18); border-radius:99px; overflow:hidden; }
+.vote-bar span { display:block; height:100%; background:var(--lime); }
+.vote-totals { display:flex; justify-content:space-between; font-size:13px; color:#D8D8D8; }.vote-totals b { color:#fff; }
+.vote-actions { display:flex; gap:10px; margin-top:18px; }
+.vote-actions button,.execute { flex:1; border:1.5px solid rgba(255,255,255,.3); background:transparent; color:#fff; padding:11px; border-radius:99px; font-size:15px; font-weight:700; }
+.vote-actions button:last-child:hover:enabled { background:rgba(255,255,255,.1); }
+.vote-actions button:first-child,.execute { background:var(--lime); color:var(--green-dark); border-color:var(--lime); }
+.vote-actions button:first-child:hover:enabled,.execute:hover:enabled { background:var(--lime-soft); }
+.execute { width:100%; margin-top:18px; }
+.voted-note { margin:16px 0 0; font-size:13px; color:var(--lime); }
+.proposal-form { align-self:start; background:#fff; color:var(--ink); padding:28px; border-radius:var(--radius-lg); position:sticky; top:calc(var(--header-h) + 20px); box-shadow:0 12px 36px rgba(0,0,0,.25); }
+.proposal-form h3 { font-size:25px; letter-spacing:-.02em; margin:12px 0 8px; font-weight:700; line-height:1.2; }
+.proposal-form p { font-size:15px; line-height:1.5; color:var(--muted); }
+.proposal-form .form-index { color:var(--green-dark); }
+.proposal-form label { display:block; font-size:14px; font-weight:700; margin-top:16px; color:var(--ink); }
+.proposal-form input,.proposal-form select,.proposal-form textarea { margin-top:6px; resize:vertical; }
+.proposal-form button { width:100%; margin-top:20px; padding:14px; border:0; background:var(--green-dark); color:#fff; font-weight:700; border-radius:99px; font-size:16px; }
+.proposal-form button:hover:enabled { background:#2D6339; }
+
+/* --- Lancer une campagne --- */
+.launch { max-width:1180px; margin:0 auto; padding:104px 4vw; display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; align-items:start; }
+.launch > div > p:last-child { color:var(--muted); line-height:1.5; max-width:430px; font-size:16px; }
+.launch form { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.launch label { display:block; font-size:14px; font-weight:700; color:var(--ink); }
+.launch input,.launch textarea,.launch select { margin-top:7px; padding:15px; width:100%; background:#fff; border:1.5px solid #B7B7B6; border-radius:var(--radius-field); color:var(--ink); outline:none; }
+.launch textarea { resize:vertical; line-height:1.5; }
+.launch textarea:focus,.launch select:focus { border-color:#232323; box-shadow:0 0 0 1px #232323; }
+/* Le sélecteur de fichier garde le cadre du formulaire, mais son bouton natif
+   doit rester cliquable : pas de padding vertical qui le décentre. */
+.launch input[type="file"] { padding:11px 13px; font-size:14px; color:var(--muted-strong); }
+.launch input[type="file"]::file-selector-button { border:0; margin-right:12px; border-radius:99px; padding:8px 16px; background:var(--lime-soft); color:var(--green-dark); font-weight:700; font-size:14px; cursor:pointer; }
+.launch input[type="file"]::file-selector-button:hover { background:var(--lime); }
+.launch input[type="file"]:disabled::file-selector-button { background:var(--neutral-mid); color:var(--muted); cursor:not-allowed; }
+.launch input:disabled,.launch textarea:disabled,.launch select:disabled { background:var(--neutral); border-color:var(--line); color:var(--muted); cursor:not-allowed; }
+.launch label:has(:disabled) { color:var(--muted); }
+/* Encart d'avertissement reprenant le jaune « tip » du design system. */
+.form-warning { background:#FFF3D0; border:1px solid #FFD863; border-radius:var(--radius-sm); padding:18px 20px; }
+.form-warning b { display:block; font-size:15px; color:#68570D; }
+.form-warning p { margin:6px 0 0; font-size:14px; line-height:1.55; color:#68570D; }
+.form-warning code { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:12px; background:rgba(104,87,13,.12); border-radius:4px; padding:1px 5px; }
+.form-warning label { display:block; margin-top:14px; font-size:14px; font-weight:700; color:#68570D; }
+.field-hint { display:block; margin-top:8px; font-size:13px; font-weight:400; line-height:1.5; color:var(--muted); }
+.field-hint code { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:12px; background:var(--neutral); border-radius:4px; padding:1px 5px; }
+.launch .wide { grid-column:1/-1; }
+.launch button { border:0; background:var(--green-dark); color:#fff; padding:17px; border-radius:99px; font-weight:700; font-size:16px; }
+.launch button:hover:enabled { background:#2D6339; }
+.launch button span { margin-left:10px; }
+
+/* --- « Disposez de tout ce dont vous avez besoin » : aide + questions --- */
+.help { background:var(--cream); border-top:1px solid var(--line-soft); }
+.help-inner { max-width:1180px; margin:auto; padding:96px 4vw; display:grid; grid-template-columns:.9fr 1.1fr; gap:60px; align-items:start; }
+.help-inner h2 { margin:12px 0 16px; font-size:clamp(28px,3.2vw,42px); letter-spacing:-.02em; line-height:1.15; font-weight:700; }
+.help-inner > div > p { color:var(--muted-strong); font-size:17px; line-height:1.55; max-width:420px; }
+.help-inner a { color:var(--green-dark); font-weight:700; }
+.faq { display:grid; gap:0; }
+.faq details { border-bottom:1px solid var(--line); }
+.faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:18px; padding:20px 2px; font-size:17px; font-weight:700; color:var(--ink); }
+.faq summary::-webkit-details-marker { display:none; }
+.faq summary::after { content:"+"; font-size:22px; color:var(--muted); flex:0 0 auto; }
+.faq details[open] summary::after { content:"−"; }
+.faq p { margin:0 0 22px; padding-right:40px; color:var(--muted-strong); font-size:16px; line-height:1.55; }
+
+/* --- « Un leader de confiance » : bandeau de réassurance --- */
+.trust { max-width:1180px; margin:auto; padding:96px 4vw; text-align:center; }
+.trust h2 { margin:12px auto 18px; font-size:clamp(26px,3vw,40px); letter-spacing:-.02em; line-height:1.15; max-width:760px; font-weight:700; }
+.trust > p { max-width:640px; margin:0 auto 40px; color:var(--muted-strong); font-size:18px; line-height:1.5; }
+.trust-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; text-align:left; }
+.trust-card { background:#fff; border:1px solid var(--line-soft); border-radius:var(--radius-lg); padding:28px; box-shadow:var(--shadow-medium); }
+.trust-card b { display:block; font-size:18px; margin-bottom:8px; font-weight:700; }
+.trust-card p { margin:0; color:var(--muted); font-size:15px; line-height:1.55; }
+
+.notice { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:901; background:#232323; color:#fff; box-shadow:0 10px 32px rgba(35,35,35,.3); border-radius:99px; padding:12px 20px; font-size:14px; display:flex; align-items:center; gap:10px; max-width:min(680px,90vw); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.notice-dot,.spinner { width:8px; height:8px; border-radius:50%; background:var(--lime); flex:0 0 auto; }
+.spinner { border:2px solid rgba(255,255,255,.3); border-top-color:var(--lime); width:14px; height:14px; background:transparent; animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* --- Pied de page : « Menu secondaire » multi-colonnes de GoFundMe --- */
+.site-footer { background:var(--cream); border-top:1px solid var(--line-soft); margin-top:0; }
+.footer-inner { max-width:1280px; margin:auto; padding:64px 4vw 28px; }
+.footer-cols { display:grid; grid-template-columns:1.2fr repeat(4,1fr); gap:34px; }
+.footer-cols h2 { grid-column:1/-1; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 -14px; font-weight:700; }
+.footer-cols nav h3 { font-size:15px; font-weight:700; margin:0 0 14px; color:var(--ink); }
+.footer-cols nav a { display:block; padding:5px 0; color:var(--muted-strong); font-size:14px; text-decoration:none; }
+.footer-cols nav a:hover { color:var(--ink); text-decoration:underline; }
+.footer-brand p { margin:14px 0 0; font-size:14px; color:var(--muted); line-height:1.55; max-width:280px; }
+.footer-legal { display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; border-top:1px solid var(--line); margin-top:44px; padding-top:22px; }
+.footer-legal p { margin:0; font-size:13px; color:var(--muted); }
+.footer-legal-links { display:flex; gap:18px; flex-wrap:wrap; }
+.footer-legal-links a { font-size:13px; color:var(--muted-strong); text-decoration:none; }
+.footer-legal-links a:hover { text-decoration:underline; }
+.footer-locale { display:inline-flex; align-items:center; gap:8px; border:1.5px solid var(--line); border-radius:99px; padding:8px 16px; font-size:14px; color:var(--ink); background:#fff; }
+.footer-disclaimer { max-width:1280px; margin:auto; padding:0 4vw 48px; font-size:12px; color:var(--muted); line-height:1.6; }
+
+button:disabled { opacity:1; background:#E9E9E9; color:#B7B7B6; cursor:not-allowed; }
+.vote-actions button:disabled,.execute:disabled { background:rgba(255,255,255,.08); color:rgba(255,255,255,.4); border-color:rgba(255,255,255,.2); }
+
+/* Le lien textuel part avant les menus : c'est le premier doublon du CTA. */
+@media (max-width:1360px) { .header-link { display:none; } }
+@media (max-width:1240px) {
+  .nav-menu,.header-search { display:none; }
+  .burger { display:flex; }
+  .mobile-panel { display:block; }
+  .footer-cols { grid-template-columns:1fr 1fr 1fr; }
+}
+@media (max-width:900px) {
+  .hero-inner { grid-template-columns:1fr; padding-top:55px; gap:40px; }
+  .metrics { grid-template-columns:1fr 1fr; gap:20px; }.metrics article { border:0; }
+  .campaign-grid,.steps-grid,.trust-grid { grid-template-columns:1fr 1fr; }
+  .steps-grid { gap:24px; }
+  .governance-layout,.launch,.help-inner { grid-template-columns:1fr; }
+  .proposal-form { position:static; }.launch { gap:35px; }.help-inner { gap:34px; }
+  .footer-cols { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:620px) {
+  :root { --header-h:68px; }
+  .header-inner { padding:0 18px; }
+  .mobile-panel { padding:14px 18px 22px; }
+  .wallet { padding:11px 16px; }
+  .brand > span:last-child { display:none; }
+  .hero-inner { padding:45px 20px 55px; }
+  .hero-actions { flex-direction:column; align-items:stretch; }
+  .hero-actions .primary,.hero-actions .secondary { text-align:center; }
+  .trust-line { flex-wrap:wrap; gap:10px; }
+  .metrics { padding:25px 20px; }.metrics strong { font-size:22px; }
+  .section,.governance,.launch,.steps-inner,.help-inner,.trust,.stat-claim { padding-left:20px; padding-right:20px; }
+  .section,.governance,.launch,.steps-inner,.help-inner,.trust { padding-top:70px; padding-bottom:70px; }
+  .campaign-grid,.steps-grid,.trust-grid { grid-template-columns:1fr; }
+  .section-heading { align-items:flex-start; gap:20px; }
+  .network-chip { display:none; }
+  .governance-layout { gap:20px; }
+  .launch form { grid-template-columns:1fr; }.launch form label,.launch .wide { grid-column:1; }
+  .footer-cols { grid-template-columns:1fr; gap:24px; }
+  .footer-inner { padding:44px 20px 24px; }
+  .footer-legal { flex-direction:column; align-items:flex-start; }
+  .notice { bottom:10px; white-space:normal; border-radius:var(--radius-sm); }
+}
+
+/* =====================================================================
+   Administration, trésorerie, CFD et gouvernance détaillée
+   Mêmes variables et mêmes codes visuels que .proposal-form et .launch.
+   ===================================================================== */
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* Lien d'en-tête réservé aux administrateurs */
+.header-admin { color:var(--green-dark); background:var(--lime-soft); font-size:15px; font-weight:700; white-space:nowrap; text-decoration:none; padding:10px 14px; border-radius:99px; }
+.header-admin:hover { background:var(--lime); }
+.mobile-admin { display:block; margin-top:10px; padding:12px 14px; border-radius:var(--radius-sm); background:var(--lime-soft); color:var(--green-dark); font-weight:700; text-decoration:none; }
+
+/* Bandeau global de pause, collé sous l'en-tête */
+.pause-banner { position:sticky; top:var(--header-h); z-index:800; background:#FFF3D0; border-bottom:1px solid #FFD863; color:#68570D; padding:12px 5vw; font-size:15px; line-height:1.45; text-align:center; }
+.paused-note { margin:10px 0 0; font-size:14px; font-weight:700; color:#880E06; }
+
+/* Notice : texte tronqué + hash de la dernière transaction */
+.notice-text { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.notice-hash { flex:0 0 auto; font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:12px; color:var(--lime); background:rgba(204,248,142,.12); border-radius:99px; padding:3px 9px; text-decoration:none; }
+a.notice-hash:hover { text-decoration:underline; }
+
+/* Cartes génériques */
+.panel-card { background:#fff; border:1px solid var(--line-soft); border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow-medium); min-width:0; display:flex; flex-direction:column; gap:10px; }
+.panel-card h3 { margin:4px 0 0; font-size:21px; letter-spacing:-.01em; line-height:1.2; font-weight:700; }
+.panel-card .form-index { color:var(--green-dark); }
+.panel-lede { margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+.panel-lede code,.inline-alert code,.confirm-message code { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:12px; background:var(--neutral); border-radius:4px; padding:1px 5px; }
+.panel-label { font-size:14px; font-weight:500; color:var(--muted); }
+.panel-figure { font-size:30px; letter-spacing:-.02em; color:var(--green-dark); font-weight:700; }
+.panel-card label { display:flex; flex-direction:column; gap:6px; font-size:14px; font-weight:700; color:var(--ink); }
+.panel-card input:not([type="radio"]):not([type="checkbox"]),.panel-card select { width:100%; background:#fff; border:1.5px solid #B7B7B6; padding:12px; outline:none; border-radius:var(--radius-field); color:var(--ink); font-weight:400; }
+.panel-card input:focus,.panel-card select:focus { border-color:#232323; box-shadow:0 0 0 1px #232323; }
+.panel-card input[aria-invalid="true"] { border-color:#B01509; }
+.panel-card select:disabled { background:var(--neutral); color:var(--muted); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.field-error { display:block; margin:0; font-size:13px; font-weight:500; color:#B01509; }
+.inline-alert { margin:0; background:#FFF3D0; border:1px solid #FFD863; border-radius:var(--radius-sm); padding:12px 14px; font-size:14px; line-height:1.5; color:#68570D; }
+.input-unit { position:relative; display:block; }
+.input-unit > span { position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:14px; color:var(--muted); font-weight:400; pointer-events:none; }
+.input-unit input { padding-right:52px !important; }
+
+/* Boutons */
+.btn-primary,.btn-danger,.btn-dark,.btn-ghost { border:0; border-radius:99px; padding:12px 20px; font-size:15px; font-weight:700; white-space:nowrap; transition:background .15s; }
+.btn-primary { background:var(--lime); color:var(--green-dark); }
+.btn-primary:hover:enabled { background:#DCFBB4; }
+.btn-dark { background:var(--green-dark); color:#fff; }
+.btn-dark:hover:enabled { background:#2D6339; }
+.btn-danger { background:#B01509; color:#fff; }
+.btn-danger:hover:enabled { background:#880E06; }
+.btn-ghost { background:transparent; border:1.5px solid #B7B7B6; color:var(--ink); }
+.btn-ghost:hover:enabled { border-color:#585858; background:rgba(35,35,35,.05); }
+.wide-btn { width:100%; margin-top:6px; padding:14px; }
+.link-button { align-self:flex-start; border:0; background:transparent; padding:0; color:var(--green-dark); font-size:14px; font-weight:700; text-decoration:underline; }
+.link-button:disabled { background:transparent; color:var(--muted); }
+
+/* Badges */
+.badge { display:inline-block; margin-left:8px; font-size:12px; font-weight:700; padding:4px 10px; border-radius:99px; vertical-align:middle; white-space:nowrap; }
+.badge-ok { background:var(--lime-soft); color:var(--green-dark); }
+.badge-warn { background:#FFF3D0; color:#68570D; }
+.badge-info { background:#E3F0FB; color:#1C456B; }
+
+/* Tableaux */
+.table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.data-table { width:100%; border-collapse:collapse; font-size:14px; }
+.data-table th { text-align:left; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+.data-table td { padding:11px 10px; border-bottom:1px solid var(--line-soft); vertical-align:middle; }
+.data-table tr:last-child td { border-bottom:0; }
+.data-table code { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:13px; }
+.check-ok,.check-bad,.check-off { text-align:center; font-weight:700; font-size:17px; width:48px; }
+.check-ok { color:var(--green); }
+.check-bad { color:#B01509; }
+.check-off { color:#B7B7B6; }
+
+/* --- Administration --- */
+.admin { max-width:1280px; margin:auto; padding:96px 4vw; border-top:1px solid var(--line-soft); }
+.admin-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.breaker-list { list-style:none; margin:6px 0 0; padding:0; display:grid; gap:10px; }
+.breaker-list li { display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; padding:14px; border-radius:var(--radius-sm); background:var(--cream); border:1px solid var(--line-soft); }
+.breaker-list b { font-size:15px; }
+
+/* Modale de confirmation (<dialog>) */
+.confirm-modal { border:0; padding:0; border-radius:var(--radius-lg); max-width:min(480px,calc(100vw - 32px)); width:100%; box-shadow:0 20px 60px rgba(0,0,0,.3); color:var(--ink); }
+.confirm-modal::backdrop { background:rgba(11,41,26,.55); }
+.confirm-body { padding:26px; }
+.confirm-body h3 { margin:0 0 10px; font-size:22px; letter-spacing:-.01em; line-height:1.2; }
+.confirm-message p { margin:0 0 10px; color:var(--muted-strong); font-size:15px; line-height:1.55; }
+.confirm-warning { background:#FEF0EA; color:#880E06 !important; border-radius:var(--radius-sm); padding:10px 12px; }
+.confirm-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; flex-wrap:wrap; }
+.confirm-actions button { border-radius:99px; padding:12px 22px; font-weight:700; font-size:15px; }
+.confirm-cancel { border:1.5px solid #B7B7B6; background:#fff; color:var(--ink); }
+.confirm-ok { border:0; background:var(--green-dark); color:#fff; }
+.confirm-danger { border:0; background:#B01509; color:#fff; }
+
+/* --- Trésorerie --- */
+.treasury { border-top:1px solid var(--line-soft); }
+.treasury-summary { display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:24px; margin-bottom:24px; }
+.owner-list { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.owner-list li { display:flex; align-items:center; gap:10px; }
+.owner-list code { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:14px; }
+.owner-index { display:grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--green-dark); color:var(--lime); font-size:12px; font-weight:700; }
+.treasury-layout { display:grid; grid-template-columns:1.5fr .8fr; gap:24px; align-items:start; }
+.treasury-layout--readonly { grid-template-columns:1fr; }
+.tx-actions { display:flex; gap:8px; justify-content:flex-end; }
+.tx-actions button { padding:8px 14px; font-size:14px; }
+.tx-table .field-error { margin-top:4px; }
+.signature-hint { margin:4px 0 0; padding:12px 14px; border-radius:var(--radius-sm); background:var(--lime-soft); color:var(--green-dark); font-weight:700; font-size:15px; }
+.signature-hint small { font-weight:400; font-size:13px; }
+.signature-hint--two { background:#FFF3D0; color:#68570D; }
+
+/* --- Mes CFD --- */
+.cfd { border-top:1px solid var(--line-soft); }
+.cfd-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
+.cfd-stats article { background:var(--cream); border:1px solid var(--line-soft); border-radius:var(--radius); padding:18px 20px; display:flex; flex-direction:column; gap:6px; min-width:0; }
+.cfd-stats span { font-size:14px; font-weight:500; color:var(--muted); }
+.cfd-stats strong { font-size:24px; color:var(--green-dark); letter-spacing:-.02em; font-weight:700; overflow-wrap:anywhere; }
+.cfd-stats small { font-size:13px; color:var(--muted); }
+.cfd-stats code { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:12px; }
+.cfd-forms { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.radio-row { border:0; padding:0; margin:0; display:flex; gap:18px; flex-wrap:wrap; }
+.radio-row label,.check-row { flex-direction:row !important; align-items:center; gap:8px !important; font-weight:500 !important; cursor:pointer; }
+.check-row { display:flex; margin-top:8px; color:#68570D !important; }
+.radio-row input,.check-row input { accent-color:var(--green-dark); width:16px; height:16px; }
+
+/* --- Gouvernance : calendrier, quorum, poids --- */
+.proposal-blocks { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:16px 0 0; }
+.proposal-blocks div { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:var(--radius-sm); padding:8px 10px; min-width:0; }
+.proposal-blocks dt { font-family:'DM Mono',ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#B7B7B6; }
+.proposal-blocks dd { margin:3px 0 0; font-size:14px; font-weight:700; color:#fff; }
+.quorum { margin-top:14px; }
+.quorum-label { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:13px; color:#D8D8D8; }
+.quorum-label b { color:#fff; }
+.quorum-bar { height:6px; margin-top:8px; background:rgba(255,255,255,.18); border-radius:99px; overflow:hidden; }
+.quorum-bar span { display:block; height:100%; background:#FFD863; transition:width .4s ease; }
+.quorum-bar--ok span { background:var(--lime); }
+.defeat-reason { margin:14px 0 0; padding:10px 12px; border-radius:var(--radius-sm); background:rgba(176,21,9,.22); color:#FFD9D2 !important; font-weight:700; }
+.weight-note { margin:14px 0 0; }
+.weight-note b { color:#fff; }
+.proposal-form select option:disabled { color:#B7B7B6; }
+.proposal-form small.field-hint { margin-top:10px; }
+
+@media (max-width:1240px) {
+  .header-admin { display:none; }
+}
+@media (max-width:900px) {
+  .admin-grid,.cfd-forms,.treasury-layout { grid-template-columns:1fr; }
+  .treasury-summary { grid-template-columns:1fr 1fr; }
+  .cfd-stats { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:620px) {
+  .admin { padding:70px 20px; }
+  .treasury-summary,.cfd-stats,.form-row { grid-template-columns:1fr; }
+  .proposal-blocks { grid-template-columns:1fr 1fr; }
+  .panel-card { padding:20px; }
+  .pause-banner { padding:10px 18px; font-size:14px; text-align:left; }
+  .notice { flex-wrap:wrap; }
+  .notice-text { white-space:normal; }
+  /* Tableau des transactions en cartes empilées : plus de défilement horizontal. */
+  .tx-table thead { display:none; }
+  .tx-table,.tx-table tbody,.tx-table tr,.tx-table td { display:block; width:100%; }
+  .tx-table tr { border:1px solid var(--line-soft); border-radius:var(--radius-sm); padding:6px 12px; margin-bottom:10px; }
+  .tx-table td { display:flex; justify-content:space-between; align-items:center; gap:10px; border:0; padding:7px 0; text-align:right; flex-wrap:wrap; }
+  .tx-table td::before { content:attr(data-label); font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; text-align:left; }
+  .tx-table td[data-label="Actions"]::before { content:none; }
+  .tx-actions { width:100%; }
+  .tx-actions button { flex:1; }
+}
