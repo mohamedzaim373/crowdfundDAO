@@ -1,4 +1,4 @@
-# Crowdfund DAO - version corrigée
+# Crowdfund DAO 
 
 Copie de référence : `C:/Users/thund/Downloads/block chaine`. La copie OneDrive est antérieure. Le rapport actualisé est `output/pdf/rapport_blockchain_corrige.pdf` (10 pages) ; son source reproductible est `scripts/build-report.py`.
 
