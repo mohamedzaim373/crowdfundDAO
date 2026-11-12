@@ -1,7 +1,5 @@
 # Crowdfund DAO 
 
-Copie de référence : `C:/Users/thund/Downloads/block chaine`. La copie OneDrive est antérieure. Le rapport actualisé est `output/pdf/rapport_blockchain_corrige.pdf` (10 pages) ; son source reproductible est `scripts/build-report.py`.
-
 ## Fonctionnement
 
 - Une contribution de 1 ETH crée 100 CFD. Le poids du vote est le solde de CFD : le jeton auto-délègue à la réception, et la délégation à un tiers est désactivée.
@@ -148,10 +146,3 @@ Ne pas enregistrer les vraies valeurs dans Git ou dans le rapport. Le script ref
 
 Le keeper fourni reste réservé au local. Sur Sepolia, les propositions peuvent être exécutées manuellement ou nécessitent un service opérateur distinct. Vérifier le RPC exposé au navigateur avant de publier le front.
 
-## Documentation
-
-- `docs/architecture.md` : modèle et paramètres.
-- `docs/security.md` : protections et limites.
-- `audit/slither-report.md` : findings et corrections.
-- `audit/corrections-2026-11-04.md` : bilan de la correction.
-- `output/pdf/rapport_blockchain_corrige.pdf` : rapport technique actualisé de 10 pages.
