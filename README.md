@@ -58,7 +58,7 @@ Le keeper local produit un bloc toutes les deux secondes et exécute les proposi
 
 CID fourni : `bafkreih33xpwo4wnh7u6c74zvcltj3h3giygigxlmkheqmc4mtmprxmtwy`. Il est prérempli dans le formulaire et utilisé par `npm run demo:local`.
 
-## Tests et bonus
+## Tests 
 
 `npm run check` vérifie les contrats, les **39 tests**, TypeScript et le build Vite. La recette de signature réelle dans MetaMask reste à réaliser par l’équipe.
 
